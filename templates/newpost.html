@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <nav>
+        <ul id="user-account">
+            <li><a href="/login">login</a></li>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+        <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">all posts</a></li>
+            <li><a href="/blog/newpost">new post</a></li>
+        </ul>
+    </nav>
+    
+    <h1>new post</h1>
+    
+    <form method="POST">
+        <label>
+            <div>title</div>
+            <input type="text" name="title" value="">
+        </label>
+        <label>
+            <div>post</div>
+            <textarea name="body"></textarea>
+        </label>
+        <div class="error"></div>
+        <input type="submit">
+    </form>
+{% endblock %}

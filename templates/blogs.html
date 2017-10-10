@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <nav>
+        <ul id="user-account">
+            <li><a href="/login">login</a></li>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+        <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">all posts</a></li>
+            <li><a href="/blog/newpost">new post</a></li>
+        </ul>
+    </nav>
+    
+    {% if blog %}
+        <h2 class="post-title">{{ blog.title }}</h2>
+        <p class="post-body">{{ blog.body }}</p>
+        <p class="post-author">
+            written by <a href="/blog?user={{ email }}">{{ email }}</a>
+        </p>
+    {% else %}
+        <h1>blog posts!</h1>
+        
+        {% if blogs|length == 0 %}
+            <p>No posts yet</p>
+        {% else %}
+            {% for blog in blogs %}
+                <h2><a href="/blog?id={{ blog.id }}">{{ blog.title }}</a></h2>
+                <p>{{ blog.body }}</p>
+                <p class="post-author">
+                    written by <a href="/blog?user={{ email }}">{{ email }}</a>
+                </p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
