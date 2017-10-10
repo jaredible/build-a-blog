@@ -8,8 +8,11 @@
 <body>
     <nav>
         <ul id="user-account">
-            <li><a href="/login">login</a></li>
-            <li><a href="/logout">logout</a></li>
+            {% if isLoggedIn %}
+                <li><a href="/logout">logout</a></li>
+            {% else %}
+                <li><a href="/login">login</a></li>
+            {% endif %}
         </ul>
         <ul>
             <li><a href="/">home</a></li>
