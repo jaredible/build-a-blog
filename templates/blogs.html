@@ -4,7 +4,7 @@
     {% if blog %}
         <h2 class="post-title">{{ blog.title }}</h2>
         <p class="post-body">{{ blog.body }}</p>
-        <p class="post-author">written by <a href="/blog?user={{ user }}">{{ user }}</a></p>
+        <p class="post-author">written by <a href="/blog?user={{ blog.owner.username }}">{{ blog.owner.username }}</a> on {{ blog.pub_date }}</p>
     {% else %}
         <h1>blog posts!</h1>
         
@@ -14,7 +14,7 @@
             {% for blog in blogs %}
                 <h2><a href="/blog?id={{ blog.id }}">{{ blog.title }}</a></h2>
                 <p>{{ blog.body }}</p>
-                <p class="post-author">written by <a href="/blog?user={{ blog.owner.username }}">{{ blog.owner.username }}</a></p>
+                <p class="post-author">written by <a href="/blog?user={{ blog.owner.username }}">{{ blog.owner.username }}</a> on {{ blog.pub_date }}</p>
             {% endfor %}
         {% endif %}
     {% endif %}

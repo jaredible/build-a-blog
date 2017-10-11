@@ -69,3 +69,9 @@ nav ul li {
 nav #user-account {
     float: right;
 }
+
+.current_user {
+    color: black;    
+    font-style: italic;
+    font-size: 12px;    
+}

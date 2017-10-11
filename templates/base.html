@@ -9,6 +9,7 @@
     <nav>
         <ul id="user-account">
             {% if isLoggedIn %}
+                <li class="current_user">logged in as <a href="/blog?user={{ current_user }}"><strong>{{ current_user }}</strong></a></li>
                 <li><a href="/logout">logout</a></li>
             {% else %}
                 <li><a href="/login">login</a></li>
