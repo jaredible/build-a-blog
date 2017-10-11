@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from hashutils import make_hash, check_hash
 import re
 
 app = Flask(__name__)
@@ -27,13 +28,13 @@ class Blog(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), unique=True)
-    password = db.Column(db.String(40), nullable=False)
+    username = db.Column(db.String(20), unique=True)
+    password_hash = db.Column(db.String(120), nullable=False) # potential problem with hash length
     blogs = db.relationship('Blog', backref='owner')
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.password_hash = make_hash(password)
 
 endpoints_with_login = ['newpost']
 
@@ -64,7 +65,9 @@ def login():
         if username:
             if user:
                 if password:
-                    if user.password == password:
+                    if len(make_hash(password)) != len(user.password_hash):
+                        flash('uh-oh', 'error')
+                    elif check_hash(password, user.password_hash):
                         session['username'] = username
                         return redirect('/blog/newpost')
                     else:
@@ -78,10 +81,10 @@ def login():
 
     return render_template('login.html', username=username, username_error=username_error, password_error=password_error, isLoggedIn=isLoggedIn())
 
-username_pattern = re.compile('^(?=\S{4,40}$)')
+username_pattern = re.compile('^(?=\S{4,20}$)')
 
 # no spaces
-# min length is 4 and max length is 40
+# min length is 4 and max length is 20
 def isValidUsername(username):
     if ' ' in username:
         return False
